@@ -1,6 +1,6 @@
-п»ї#!/usr/bin/env python3
+#!/usr/bin/env python3
 \"\"\"
-рџљЂ NeuroPartner - РЈРїСЂРѕС‰РµРЅРЅС‹Р№ Р·Р°РїСѓСЃРє
+?? NeuroPartner - Упрощенный запуск
 \"\"\"
 
 import asyncio
@@ -8,7 +8,7 @@ import os
 import sys
 
 def setup_environment():
-    \"\"\"РќР°СЃС‚СЂРѕР№РєР° РѕРєСЂСѓР¶РµРЅРёСЏ\"\"\"
+    \"\"\"Настройка окружения\"\"\"
     sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     
     class SimpleSettings:
@@ -19,56 +19,56 @@ def setup_environment():
     return SimpleSettings()
 
 async def test_gemini():
-    \"\"\"РўРµСЃС‚ СЂР°Р±РѕС‚С‹ Gemini\"\"\"
+    \"\"\"Тест работы Gemini\"\"\"
     try:
         from infrastructure.external.GeminiClient import GeminiClient
         
         client = GeminiClient()
         if await client.is_available():
-            print(\"вњ… Gemini РґРѕСЃС‚СѓРїРµРЅ!\")
-            result = await client.process(\"РџСЂРёРІРµС‚! РћС‚РІРµС‚СЊ РєРѕСЂРѕС‚РєРѕ.\", {\"task_type\": \"general\"})
-            print(f\"рџ¤– Gemini: {result['content'][:50]}...\")
+            print(\"? Gemini доступен!\")
+            result = await client.process(\"Привет! Ответь коротко.\", {\"task_type\": \"general\"})
+            print(f\"?? Gemini: {result['content'][:50]}...\")
             return True
         else:
-            print(\"вќЊ Gemini РЅРµРґРѕСЃС‚СѓРїРµРЅ\")
+            print(\"? Gemini недоступен\")
             return False
             
     except Exception as e:
-        print(f\"вќЊ РћС€РёР±РєР° С‚РµСЃС‚Р° Gemini: {e}\")
+        print(f\"? Ошибка теста Gemini: {e}\")
         return False
 
 async def main():
-    \"\"\"Р“Р»Р°РІРЅР°СЏ С„СѓРЅРєС†РёСЏ\"\"\"
+    \"\"\"Главная функция\"\"\"
     print(\"\"\"
-рџЊЊ NeuroPartner - РЈРїСЂРѕС‰РµРЅРЅС‹Р№ Р·Р°РїСѓСЃРє
-рџљЂ РџСЂРѕРІРµСЂРєР° СЃРёСЃС‚РµРјС‹...
+?? NeuroPartner - Упрощенный запуск
+?? Проверка системы...
 \"\"\")
     
     settings = setup_environment()
     
     if not settings.telegram_bot_token:
-        print(\"вљ пёЏ  TELEGRAM_BOT_TOKEN РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅ\")
+        print(\"??  TELEGRAM_BOT_TOKEN не установлен\")
     
     if not settings.gemini_api_key:
-        print(\"вљ пёЏ  GEMINI_API_KEY РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅ\")
+        print(\"??  GEMINI_API_KEY не установлен\")
     else:
-        print(\"вњ… GEMINI_API_KEY РЅР°Р№РґРµРЅ\")
+        print(\"? GEMINI_API_KEY найден\")
     
-    print(\"\\nрџ§Є РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ AI...\")
+    print(\"\\n?? Тестирование AI...\")
     ai_working = await test_gemini()
     
     if ai_working:
         print(\"\"\"
-рџЋ‰ Р‘Р°Р·РѕРІР°СЏ СЃРёСЃС‚РµРјР° СЂР°Р±РѕС‚Р°РµС‚!
+?? Базовая система работает!
         
-рџ“ќ РЎР»РµРґСѓСЋС‰РёРµ С€Р°РіРё:
-1. РЈСЃС‚Р°РЅРѕРІРё TELEGRAM_BOT_TOKEN РІ .env
-2. Р—Р°РїСѓСЃС‚Рё: python run_bot_simple.py
+?? Следующие шаги:
+1. Установи TELEGRAM_BOT_TOKEN в .env
+2. Запусти: python run_bot_simple.py
 \"\"\")
     else:
         print(\"\"\"
-вќЊ Р•СЃС‚СЊ РїСЂРѕР±Р»РµРјС‹ СЃ AI
-рџ”§ РџСЂРѕРІРµСЂСЊ GEMINI_API_KEY РІ .env
+? Есть проблемы с AI
+?? Проверь GEMINI_API_KEY в .env
 \"\"\")
 
 if __name__ == \"__main__\":
