@@ -21,3 +21,15 @@ async def health():
 
 # Остальной код NeuroPartner...
 print("🌌 NeuroPartner FastAPI запущен!")
+@app.post("/webhook")
+async def telegram_webhook(update: dict):
+    return {"status": "ok"}
+
+from telegram import Update
+from telegram.ext import Application
+
+@app.post("/webhook")
+async def telegram_webhook(update: dict):
+    # Обработка сообщений от Telegram
+    print(f"Получено сообщение: {update}")
+    return {"status": "ok"}
