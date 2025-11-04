@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 class GeminiClient:
     def __init__(self):
         self.api_key = os.getenv('GEMINI_API_KEY')
-        self.model_name = 'gemini-1.5-flash'
+        self.model_name = 'gemini-2.0-flash'
         self.configured = bool(self.api_key)
         self.model = None
         
