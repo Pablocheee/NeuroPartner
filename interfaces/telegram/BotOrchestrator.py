@@ -37,7 +37,7 @@ class BotOrchestrator:
 
         # Настройка обработчиков состояний
         conversation_handler = ConversationHandler(
-            entry_points=[MessageHandler(filters.TEXT & ~filters.COMMAND, self._handle_message)],
+            entry_points=[CommandHandler('start', self._start)],
             states={
                 WELCOME: [MessageHandler(filters.TEXT, self._handle_message)],
                 GOAL_DISCOVERY: [MessageHandler(filters.TEXT, self._handle_message)],
@@ -112,6 +112,7 @@ class BotOrchestrator:
     async def run(self):
         \"\"\"Запуск бота\"\"\"
         await self.application.run_polling()
+
 
 
 
