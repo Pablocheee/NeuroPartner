@@ -8,6 +8,8 @@ from interfaces.telegram.states.ValueDemoState import ValueDemoState
 from interfaces.telegram.states.ProjectCreationState import ProjectCreationState
 from interfaces.telegram.states.ProjectExecutionState import ProjectExecutionState
 from interfaces.telegram.states.SuccessValidationState import SuccessValidationState
+from interfaces.telegram.states.LearningState import LearningState
+from interfaces.telegram.states.LearningState import LearningState
 from interfaces.telegram.KeyboardFactory import KeyboardFactory
 from interfaces.telegram.MessageRenderer import MessageRenderer
 from infrastructure.config import settings
@@ -99,6 +101,7 @@ class BotOrchestrator:
             PROJECT_CREATION: ProjectCreationState(self),
             PROJECT_EXECUTION: ProjectExecutionState(self),
             SUCCESS_VALIDATION: SuccessValidationState(self),
+            LEARNING: LearningState(self),
             # SUBSCRIPTION_OFFER: SubscriptionOfferState(self),
             # LEARNING: LearningState(self),
             # PORTFOLIO: PortfolioState(self),
@@ -109,3 +112,6 @@ class BotOrchestrator:
     async def run(self):
         \"\"\"Запуск бота\"\"\"
         await self.application.run_polling()
+
+
+

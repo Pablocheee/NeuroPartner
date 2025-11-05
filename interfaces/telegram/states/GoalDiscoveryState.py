@@ -39,7 +39,7 @@ class GoalDiscoveryState(State):
             reply_markup=self.keyboard_factory.get_yes_no_keyboard()
         )
         
-        return VALUE_DEMO
+        return LEARNING
     
     async def _get_or_create_user(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> User:
         \"\"\"Создать или получить пользователя\"\"\"
