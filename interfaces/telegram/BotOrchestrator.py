@@ -13,6 +13,7 @@ from interfaces.telegram.states.LearningState import LearningState
 from interfaces.telegram.KeyboardFactory import KeyboardFactory
 from interfaces.telegram.MessageRenderer import MessageRenderer
 from infrastructure.config import settings
+from application.ProjectCoordinatorService import ProjectCoordinatorService
 from core.goals.GoalExtractor import GoalExtractor
 
 class BotOrchestrator:
@@ -112,6 +113,8 @@ class BotOrchestrator:
     async def run(self):
         \"\"\"Запуск бота\"\"\"
         await self.application.run_polling()
+
+
 
 
 

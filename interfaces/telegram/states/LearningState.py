@@ -1,7 +1,7 @@
-﻿from interfaces.telegram.FiniteStateMachine import State, LEARNING, PROJECT_CREATION
+﻿from interfaces.telegram.FiniteStateMachine import State, LEARNING, PROJECT_EXECUTION
 from telegram import Update
 from telegram.ext import ContextTypes
-from infrastructure.external import AIClient
+from application.ProjectCoordinatorService import ProjectCoordinatorService
 
 class LearningState(State):
     \"\"\"Состояние обучения после выявления цели\"\"\"
@@ -9,26 +9,32 @@ class LearningState(State):
     async def handle_message(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
         user_message = update.message.text
         goal = context.user_data.get('current_goal')
-        
-        # AI создает учебный план для цели
-        ai_client = AIClient()
-        learning_plan = await ai_client.process_message(
-            f\"Создай краткий учебный план для цели: {goal.true_goal}. \" 
-            \"3-5 практических шагов обучения.\",
-            {'task_type': 'learning_plan'}
-        )
+        project = context.user_data.get('current_project')
 
-        learning_text = f\"\"\"
-🎓 **бучение для твоей цели:** {goal.true_goal}
+        if user_message.lower() in ['да', 'yes', 'хочу', 'начать']:
+            # Показываем учебный план
+            learning_text = f\"\"\"
+🎓 **Обучение для цели:** {goal.true_goal}
 
-{learning_plan['content']}
+📚 **План обучения:**
+1. **Определение задачи** - конкретизируем что нужно сделать
+2. **Практическое выполнение** - создаем реальный результат  
+3. **Анализ и улучшение** - учимся на практике
 
-💡 **отов начать практический проект?**
-        \"\"\"
+🚀 **Готов перейти к первому шагу проекта?**
+            \"\"\"
 
-        await update.message.reply_text(
-            learning_text,
-            reply_markup=self.keyboard_factory.get_yes_no_keyboard()
-        )
+            await update.message.reply_text(
+                learning_text,
+                reply_markup=self.keyboard_factory.get_yes_no_keyboard()
+            )
 
-        return PROJECT_CREATION
+            return PROJECT_EXECUTION
+
+        else:
+            # Возвращаем к обучению
+            await update.message.reply_text(
+                \"Обучение поможет тебе достичь цели быстрее. Хочешь начать?\",
+                reply_markup=self.keyboard_factory.get_yes_no_keyboard()
+            )
+            return LEARNING
